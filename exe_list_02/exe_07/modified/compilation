@@ -1,0 +1,5 @@
+cd build
+g++ ../p1.cpp -o p1.out
+g++ ../p2.cpp -o p2.out
+g++ ../p3.cpp -o p3.out
+g++ ../p4.cpp -o p4.out

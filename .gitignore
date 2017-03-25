@@ -1,0 +1,12 @@
+*.zip
+~*
+
+*.sublime-workspace
+
+**/build/
+
+*.o
+
+*.ii
+
+*.s

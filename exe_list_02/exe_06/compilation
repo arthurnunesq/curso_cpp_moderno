@@ -1,0 +1,1 @@
+ gcc exe_06.cpp -o exe_06.out

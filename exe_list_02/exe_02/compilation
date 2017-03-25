@@ -1,0 +1,2 @@
+cd build
+gcc -save-temps=obj ../p.cpp ../q.cpp -o p.out

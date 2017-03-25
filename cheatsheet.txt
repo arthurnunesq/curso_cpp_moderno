@@ -1,0 +1,2 @@
+# https://superuser.com/questions/214390/zipping-folders-and-their-contents-into-a-zip-file-in-linux
+zip -r foo.zip dir_path
