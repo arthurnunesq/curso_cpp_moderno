@@ -53,40 +53,6 @@ Ex:
 	p3.cpp: template
 	p4.cpp: valor const
 
-
-==================================================================
-*) Dúvidas:
-1) Porque compilar múltiplos arquivos da questão 2, mesmo com os fixes, geram erros de compilação se a flag "-save-temps=obj" for usada?
-Ex:
-	$ cd exe_02/fix1/build
-	$ gcc -save-temps=obj ../q.cpp ../p.cpp -o p.out
-	p.o: In function `stuff()':
-	p.cpp:(.text+0x0): multiple definition of `stuff()'
-	p.o:p.cpp:(.text+0x0): first defined here
-	p.o: In function `main':
-	p.cpp:(.text+0xb): multiple definition of `main'
-	p.o:p.cpp:(.text+0xb): first defined here
-	collect2: error: ld returned 1 exit status
-
-2) Porque ao compilar o arquivo p3.cpp da questão 7 utilizando gcc gera erros referentes à classe "string", mas compilando com g++ não há problema?
-Fonte: 	http://stackoverflow.com/questions/3081815/c-errors-while-compiling
-		http://stackoverflow.com/questions/19016253/g-undefined-reference-std
-Ex.:
-	gcc ../p3.cpp -o p3.out
-	/tmp/cctHNXW0.o: In function `h()':
-	p3.cpp:(.text+0x22): undefined reference to `std::allocator<char>::allocator()'
-	p3.cpp:(.text+0x37): undefined reference to `std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&)'
-	p3.cpp:(.text+0x56): undefined reference to `std::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string()'
-	p3.cpp:(.text+0x62): undefined reference to `std::allocator<char>::~allocator()'
-	p3.cpp:(.text+0x7f): undefined reference to `std::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string()'
-	p3.cpp:(.text+0xa1): undefined reference to `std::allocator<char>::~allocator()'
-	/tmp/cctHNXW0.o: In function `MyClass<std::string>::~MyClass()':
-	p3.cpp:(.text._ZN7MyClassISsED2Ev[_ZN7MyClassISsED5Ev]+0x14): undefined reference to `std::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string()'
-	/tmp/cctHNXW0.o: In function `MyClass<std::string>::MyClass(std::string)':
-	p3.cpp:(.text._ZN7MyClassISsEC2ESs[_ZN7MyClassISsEC5ESs]+0x18): undefined reference to `std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string()'
-	/tmp/cctHNXW0.o:(.eh_frame+0x4b): undefined reference to `__gxx_personality_v0'
-	collect2: error: ld returned 1 exit status
-
 ==================================================================
 *) Referências
 http://www.manpages.info/linux/gcc.1.html
