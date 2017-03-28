@@ -8,12 +8,28 @@
 
 *) Respostas dos exercícios do slide (p. 27)
 
-1) O compilador utilizado gera 11846 linhas de código para o programa "hello" (ver "exe_01/program.ii").
+1) O compilador utilizado gera 11846 linhas de código para o programa "hello".
 Compilador:
 gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
 
-2) 	Modo 1: Definir função "violateODR" como "inline" em "a.h" 			(ver "exe_02/fix1/")
-	Modo 1: Definir função "violateODR" em um arquivo separado "a.cpp" 	(ver "exe_02/fix2/")
+2) Modo 1: Definir função "violateODR" como "inline" em "a.h" 
+	
+	#ifndef A_H__
+	#define A_H__
+
+	inline void violateODR(){
+
+	}
+
+	#endif
+
+Modo 2: Definir função "violateODR" em um arquivo separado "a.cpp"
+
+	#include "a.h"
+
+	void violateODR(){
+
+	}
 
 3) Uma vez que C++ suporta function overloading, o nome de uma função não pode ser utilizado como um ID único durante a linkagem,
 por isso ele modifica o nome da função adicionando a ele informação dos seus parâmetros (mangling).
@@ -37,7 +53,6 @@ Fonte: http://www.comeaucomputing.com/techtalk/#nostatic
 
 6) A macro interpreta qualquer elemento separado por vírgulas como um parâmetro, de forma que um template com mais de um tipo
 é interpretado como dois parâmetros pela macro (uma vez que os tipos do template são separados por vírgulas), gerando um erro de compilação.
-Ver "exe_06/exe_06.cpp"
 Ex:
 	$ g++ exe_06.cpp -o exe_06.out
 	exe_06.cpp:21:37: error: macro "SETTER" passed 3 arguments, but takes just 2
@@ -47,11 +62,83 @@ Ex:
 	  SETTER(property, Tuple<int, double>);
   ^
 
-7) Ver "exe_07/modified/":
-	p1.cpp: função inline
-	p2.cpp: enum
-	p3.cpp: template
-	p4.cpp: valor const
+7) p1.cpp: função inline
+
+	inline int ADD2(int A, int B) {
+		return A+B;
+	}
+
+	void g(){
+		int x = ADD2(1,10);
+	}
+
+	int main(){
+		void g();
+		return 0;
+	}
+
+p2.cpp: enum
+
+	namespace Numbers{
+		enum Number { 
+			One = 1,
+			Two = 2,
+		};
+	}
+	typedef Numbers::Number Number;
+
+	void k(int v){
+		switch(v){
+			case Numbers::One: ;
+			case Numbers::Two: ;
+		}
+	}
+
+	int main(){
+		k(Numbers::One);
+		return 0;
+	}
+
+
+p3.cpp: template
+
+	#include <string>
+
+	template<typename T>
+	struct MyClass {	
+		MyClass(T){}
+		T data_;					
+	};
+
+	using namespace std;
+	typedef MyClass<int> MyClass_int;
+	typedef MyClass<string> MyClass_string;
+
+	void h(){
+		MyClass_int m(10);
+		MyClass_string n("foo");
+	}
+
+	int main(){
+		h();
+		return 0;
+	}
+
+p4.cpp: valor const
+
+	const int SIZE = 100;
+
+	template<int size>
+	class MyArray{};
+
+	void f(){
+		MyArray<SIZE> a;
+	}
+
+	int main(){
+		f();
+		return 0;
+	}
 
 ==================================================================
 *) Referências

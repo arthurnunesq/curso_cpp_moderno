@@ -1,8 +1,3 @@
-// enum Numbers { 
-// 	One = 1,
-// 	Two = 2,
-// };
-
 namespace Numbers{
 	enum Number { 
 		One = 1,
