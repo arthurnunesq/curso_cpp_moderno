@@ -1,0 +1,219 @@
+/**
+    Curso de C++ Moderno
+
+    Lista de exercícios Módulo 03: Objetos: armazenamento, inicialia
+
+    @author Arthur Nunes de Paiva Santos Queiroz
+    @version 03/2017
+*/
+
+*) Respostas dos exercícios do slide (p. 62)
+
+1) p.2: Qual funcionalidade nenhum compilador implementou?
+p.8: Qual a implementação típica de NULL em C e porquê ela não é compatível com C++?
+p.9: Qual a diferença entre <cstdio> e <stdio.h>?
+p.13: Qual o valor de NULL nesta plataforma, 0 ou 0L?
+p.17: Mas e o std::for_each?
+p.17: Por quê const&?
+p.20: O que um iterador?
+p.21: Qual a diferença entre diretivas e declarações using?
+p.25: Realmente compilaria em C++98/03?
+p.25: Por quê typename é necessário?
+p.27: Qual a relação entre inteiros e enums em C++?
+p.28: Por quê isso não é permitido?
+p.28: Qual o problema de #include?
+p.32: O que é um construtor explícito e um operador de conversão?
+p.33: Qual a representação interna de um enum convencional?
+p.36: Qual o nome desta técnica de programação?
+p.38: Qual seria outra vantagem de constexpr?
+p.47: Como escrever essa string em C++98/03?
+p.48: Qual o prefixo de um literal std::wstring?
+p.49: Qual o enconding de um literal std::wstring?
+p.58: Como criar inteiros em octal e hexa em C++98/03?
+p59: Quando um assert é avaliado?
+
+
+2) Em <stddef.h>:
+	#define NULL 0
+Fonte: http://en.cppreference.com/w/cpp/types/NULL
+
+3) Código fonte:
+
+	#include <iostream>
+	#include <vector>
+	#include <algorithm>
+
+	void g(){
+	    std::vector<int> v = {1, 2, 3, 4};
+
+	    for(int& n : v){
+	        n++;
+	        std::cout << " " << n;
+	    }
+	    std::cout << std::endl;
+
+	    std::for_each(v.begin(), v.end(), [](int &n){ n++; });
+	    std::for_each(v.begin(), v.end(), [](const int& n) { std::cout << " " << n; });
+
+	    std::cout << std::endl;
+	}
+
+	int main(){
+	    g();
+
+	    return 0;
+	}
+
+4) Código fonte:
+
+	#include <iostream>
+	#include <vector>
+	#include <algorithm>
+
+	#define STR(symbol) #symbol
+
+	enum class FaultProtection : char{
+	    Active,  Unavailable
+	};
+
+	enum class ProcStatus: char{
+	    Active,  Waiting, Cancelled
+	};
+
+	bool checkViolation(ProcStatus s){
+	    if(s == ProcStatus::Active){
+	        std:: cout << STR(ProcStatus::Active);
+	    } else if(s == ProcStatus::Waiting){
+	        std:: cout << STR(ProcStatus::Waiting);
+	    } else if(s == ProcStatus::Cancelled){
+	        std:: cout << STR(ProcStatus::Cancelled);
+	    } else return true;
+	}
+
+	int main(){
+	    checkViolation(ProcStatus::Waiting);
+
+	    std:: cout << std::endl;
+
+	    return 0;
+	}
+
+5) O maior número foi 522, após o qual o compilador exibe o seguinte erro:
+	p.cpp:4:36:   in constexpr expansion of ‘factorial((x + 18446744073709551615ull))’
+	p.cpp:14:23: error: constexpr evaluation depth exceeds maximum of 512 (use -fconstexpr-depth= to increase the maximum)
+	     case factorial(522): break;
+Código fonte:
+
+	constexpr unsigned long long int factorial(unsigned long long int x){
+	    return  x > 1 ? x*factorial(x-1) : 1;
+	}
+
+	int main(){
+	    unsigned long long int i = 0;
+	    switch (i){
+	    case -1: break;
+	    case factorial(1): break;
+	    case factorial(2): break;
+	    case factorial(10): break;
+	    case factorial(521): break;
+	    case factorial(522): break;
+	    }
+	    return 0;
+	}
+
+6) Código fonte:
+
+	#include <iostream>
+	#include <string>
+	#include <regex>
+
+	int main()
+	{
+	    std::string s = R"(leandro\"BR"\31-99990000)";
+
+	    std::regex conventional_regex("leandro\\\\\"BR\"\\\\31-99990000");
+	    if (std::regex_search(s, conventional_regex)) {
+	        std::cout << "Match found with conventional string.\n";
+	    }
+
+	    std::regex raw_regex(R"(leandro\\"BR"\\31-99990000)");
+	    if (std::regex_search(s, raw_regex)) {
+	        std::cout << "Match found with raw string.\n";
+	    }
+
+	    return 0;
+	}
+
+
+7) Código fonte:
+
+	#include <iostream>
+	#include <string>
+
+	#include <codecvt>   // for codecvt_utf8
+	#include <locale>    // for wstring_convert
+
+	int main()
+	{
+	    std::string s_u8 = u8"olá";
+	    std::u16string s_u16 = u"olá";
+	    std::u32string s_u32 = U"olá";
+
+	    std::cout << "UTF-8: " << s_u8 << "\n";
+
+	    std::wstring_convert<std::codecvt_utf8<char16_t>, char16_t> cv_u16;
+	    std::cout << "UTF-16: " << cv_u16.to_bytes(s_u16) << "\n";
+
+	    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> cv_u32;
+	    std::cout << "UTF-32: " << cv_u32.to_bytes(s_u32) << "\n";
+
+	    return 0;
+	}
+
+
+8) Código fonte:
+
+	#include <iostream>
+	#include <string>
+
+	struct Complex{
+	    double imaginary_ = 0.0;
+	    double real_ = 0.0;
+
+	    constexpr Complex(double real, double imaginary)
+	        : real_(real), imaginary_(imaginary){ }
+	};
+
+	constexpr Complex operator"" _i(long double value){
+	    return Complex(0, value);
+	}
+
+	std::ostream& operator<<(std::ostream& stream,
+	                     const Complex& complex) {
+	    stream << "(" << complex.real_ << ", " << complex.imaginary_ << "i)";
+	    return stream;
+	 }
+
+	Complex operator+(const Complex& a, const Complex& b)
+	{
+	    return Complex(a.real_ + b.real_, a.imaginary_ + b.imaginary_);
+	}
+
+	int main()
+	{
+	    Complex a(1.0, 0.0);
+	    Complex b = 1.0_i;
+	    Complex c = a+b;
+
+	    std::cout << "a =  " << a << "\nb = " << b << "\nc = " << c << "\n";
+
+	    return 0;
+	}
+
+==================================================================
+*) Referências
+http://regexr.com/
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53683
+http://stackoverflow.com/questions/15615136/is-codecvt-not-a-std-header
+https://gist.github.com/rednaxelafx/6605567
+

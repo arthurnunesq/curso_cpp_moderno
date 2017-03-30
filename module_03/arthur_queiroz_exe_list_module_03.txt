@@ -1,5 +1,5 @@
 /**
-    Curso de C++ ModernoPatricia Sette Câmara Haizer
+    Curso de C++ Moderno
 
     Lista de exercícios Módulo 03: Objetos: armazenamento, inicialia
 
