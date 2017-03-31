@@ -199,16 +199,41 @@ Código fonte:
 	    return Complex(a.real_ + b.real_, a.imaginary_ + b.imaginary_);
 	}
 
+	Complex operator+(long double a, const Complex& b)
+	{
+	    return Complex(a + b.real_, b.imaginary_);
+	}
+
 	int main()
 	{
 	    Complex a(1.0, 0.0);
 	    Complex b = 1.0_i;
-	    Complex c = a+b;
+	    Complex c = 2.0 + 2.0_i;
+	    Complex d = a+b+c;
 
-	    std::cout << "a =  " << a << "\nb = " << b << "\nc = " << c << "\n";
+	    std::cout << "a =  " << a << "\nb = " << b << "\nc = " << c << "\nd = " << d << "\n";
 
 	    return 0;
 	}
+
+9) Código fonte:
+
+	#include <iostream>
+	#include <typeinfo>
+
+	int main()
+	{
+	    std::cout   << "Type of 100: \t"      << typeid(100).name()       << std::endl
+	                << "Type of 100u: \t"     << typeid(100u).name()      << std::endl
+	                << "Type of 100UL: \t"    << typeid(100UL).name()     << std::endl
+	                << "Type of 100LL: \t"    << typeid(100LL).name()     << std::endl
+	                << "Type of 3.14: \t"     << typeid(3.14).name()      << std::endl
+	                << "Type of 3.14f: \t"    << typeid(3.14f).name()     << std::endl
+	                << "Type of 3.14L: \t"    << typeid(3.14L).name()     << std::endl;
+
+	    return 0;
+	}
+
 
 ==================================================================
 *) Referências
