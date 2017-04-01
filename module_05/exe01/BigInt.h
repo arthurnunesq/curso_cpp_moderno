@@ -1,6 +1,9 @@
 #ifndef BIGINT_H
 #define BIGINT_H
 
+#include <cstdint>
+#include <algorithm>
+
 struct BigInt{
     int sig_;
     int len_;
