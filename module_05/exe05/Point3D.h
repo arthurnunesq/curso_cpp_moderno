@@ -10,9 +10,9 @@ class Point3D {
     std::vector<BigInt> coord_;
 
 public:
-    Point3D() : coord_(3)
+    Point3D() : coord_({BigInt(),BigInt(),BigInt()})
     {
-
+        std::cout << "Point3D: Construtor" << std::endl;
     }
 
     Point3D(const BigInt& x, const BigInt& y, const BigInt& z) : coord_(3)
@@ -25,22 +25,26 @@ public:
     Point3D(const Point3D& bi)
         : coord_(bi.coord_)
     {
+        std::cout << "Point3D: Construtor de copia" << std::endl;
     }
 
     Point3D& operator=(const Point3D& bi){
         coord_ = bi.coord_;
+        std::cout << "Point3D: Atribuicao por copia" << std::endl;
         return *this;
     }
 
     Point3D(Point3D&& bi)
         :  coord_(std::move(bi.coord_))
     {
-        bi.coord_ =  std::vector<BigInt>(3);
+        bi.coord_ =  {BigInt(),BigInt(),BigInt()};
+        std::cout << "Point3D: Construtor de transferencia" << std::endl;
     }
 
     Point3D& operator=(Point3D&& bi){
         coord_ = std::move(bi.coord_);
-        bi.coord_ =  std::vector<BigInt>(3);
+        bi.coord_ =  {BigInt(),BigInt(),BigInt()};
+        std::cout << "Point3D: Atribuicao por transferencia" << std::endl;
         return *this;
     }
 
