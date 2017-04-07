@@ -1,0 +1,76 @@
+/**
+    Curso de C++ Moderno
+
+    Lista de exercícios Módulo 06: Dedução e inspeção de tipos com auto e decltype
+
+    @author Arthur Nunes de Paiva Santos Queiroz
+    @version 03/2017
+*/
+
+*) Respostas dos exercícios do slide (p. 47)
+
+4) Erros de compilação:
+
+	main.cpp:11:1: error: ‘infer’ function uses ‘auto’ type specifier without trailing return type
+	 )
+	 ^
+	main.cpp:11:1: note: deduced return type only available with -std=c++14 or -std=gnu++14
+	main.cpp: In function ‘auto infer(int, B*, D*)’:
+	main.cpp:15:9: error: inconsistent deduction for ‘auto’: ‘B*’ and then ‘D*’
+	  return d;
+	         ^
+
+O primeiro/segundo erro origina-se do fato do c++11 não suportar inferência do tipo de retorno com o uso da keyword 'auto'.
+O terceiro erro ocorre devido a haver ambiguidade em relação ao tipo de retorno da função, B* ou D*, a despeito de serem tipos
+derivados.
+
+Para corrigir os erros, especifica-se o tipo de retorno em função do primeiro argumento, utilizando decltype.
+
+	#include <iostream>
+	#include "../exe02/printtype.h"
+
+	struct B{};
+	struct D : B {};
+
+	auto infer(
+		int n, 
+		B* b, 
+		D* d
+	) -> decltype(b)
+	{
+		if(n % 2 == 0)
+			return b;
+		return d;
+	}
+
+	int main()
+	{
+		B b;
+		D d;
+
+		infer(0, &b, &d);
+
+	    return 0;
+	}
+
+5) 
+
+void f(){
+	std::vector<int> v {1, 2, 3};
+
+	// No primeiro caso, os elementos são acessados por valor, sendo possível modificar a variável i sem alterar os objetos do vetor.
+	for (auto i : v){}
+
+	// A passagem por cópia permite modificar os elementos do vetor.
+	for (auto& i : v){}
+
+	// A passagem por referência constante permite ter acesso apenas leitura aos elementos do vetor sem o custo de uma cópia.
+	for (const auto& i : v){}
+
+	// Na verdade, não vejo porque utilizar uma referência de rvalue neste caso.
+	for (auto&& i : v){}
+}
+
+==================================================================
+*) Referências
+
