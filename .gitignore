@@ -12,8 +12,6 @@
 *.s
 *.exe
 
-module_05/exe02/make~
+*~
 
-module_05/exe02/main
-
-module_05/exe02/run~
+*main

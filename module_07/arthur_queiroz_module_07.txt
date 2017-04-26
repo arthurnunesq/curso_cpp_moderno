@@ -1,0 +1,36 @@
+/**
+    Curso de C++ Moderno
+
+    Lista de exercícios Módulo 07: Lambdas
+
+    @author Arthur Nunes de Paiva Santos Queiroz
+    @version 04/2017
+*/
+
+*) Respostas dos exercícios do slide (p. 60)
+
+1) Qual o bug do codigo A e como corrigi-lo mudando apenas o tipo da declaracao?
+2) Qual o bug no codigo B e como corrigi-lo modificando apenas o tipo de retorno especificado ?
+
+3) lmplemente uma versao simplificada de uma classe Closure.
+
+4) Na captura por copia, o = é necessario no modo default mas invalido no individual. lsso evita
+ambiguidade com a captura vazia, []. Seria melhor uma sintaxe alternativa (questao aberta)?
+Uma opção seria a possibilidade de se omitir a lista de captura "[]" para realizar uma captura vazia e explicitá-la para
+realizar uma captura default.
+
+5) O que ha de "errado" na captura [&, x, &y] ?
+A captura de &y é desnecessária, pois a captura default por referência foi habilitada.
+
+6) Utilizando std: : sort e um lambda, ordene os caracteres da string "eiAiLjaOQl" de acordo
+com o alfabeto, ignorando a capitalizag'ao (minusculas e maiusculas).
+
+7) Defina uma aplicacao parcial que corresponda a multiplicacao de um argumento por 10,
+combinado com sua some a 5. Utilize std::bind, std::multiplies, e std::plus.
+
+8) Crie sua propria implementacao de std::ref.
+
+
+==================================================================
+*) Referências
+
