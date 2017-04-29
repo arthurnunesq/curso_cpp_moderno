@@ -1,0 +1,62 @@
+/**
+    Curso de C++ Moderno
+
+    Lista de exercícios Módulo 08: Gerenciamento de memória
+
+    @author Arthur Nunes de Paiva Santos Queiroz
+    @version 04/2017
+*/
+
+1) Qual é o problema do smart pointer std:auto_ptr de C++98/03?
+std:auto_ptr se comporta como um std::unique_pointer, mas sua semântica de transferência não é intuitiva,
+pois ele é mutado quando é atribuído à outra variável. std::unique_ptr, por outro lado,
+não é copiável, e sua posse tem que ser transferida explicitamente.
+Fonte: http://stackoverflow.com/questions/3697686/why-is-auto-ptr-being-deprecated
+
+2) Implemente a classe smart_ptr estudada nos slides. Verifique se ela funciona de acordo com sua
+expectativa (você pode, por exemplo, adicionar std::cout nos métodos para fins de debug).
+
+3) Visto que std::unique_ptr pode armazenar um deleter em seu segundo parametro template, como é
+possivel que ele não traga overhead de tamanho em relação a um ponteiro nativo?
+Isso ocorre porque o deleter é armazenado como um membro de std::unique_ptr da seguinte forma:
+	typedef std::tuple<typename _Pointer::type, _Dp>  __tuple_type;                 
+  	__tuple_type  _M_t;
+Sendo _Dp uma classe vazia:
+	typename _Dp = default_delete<_Tp>
+Uma vez que std::tuple implementa (dependendo do compilador utilizado) "empty base class optimization",
+se o ponteiro for instanciado com o deleter padrão, o tamanho da tuple corresponde apenas ao tamanho do
+raw pointer.
+Fonte:  http://stackoverflow.com/questions/13460395/how-can-stdunique-ptr-have-no-size-overhead
+		http://www.stroustrup.com/bs_faq2.html#sizeof-empty
+		https://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-html-USERS-4.4/a01404.html
+		https://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-api-4.5/a01066_source.html
+
+4) Investigue as vantagens/desvantagens de std: :unique_ptr com arrays. Compare com std: :vector.
+O uso de std::unique_ptr<T[]> não apresenta vantagens expressivas sobre o uso de std::vector, 
+sendo usado apenas como último recurso quando o uso de std::vector não for possível.
+Fonte: http://stackoverflow.com/a/16711846/702828
+
+5) Qual o problema do codigo A?
+A função f cria um novo std::shared_ptr a partir do raw pointer do primeiro smart_ptr, de forma
+que ambos tentaram controlar o ciclo de vida do pointeiro sem ter conhecimento um do outro, causando
+erros por conta de deleções adicionais.
+
+6) Cria um std:unique_ptr e um std:shared_ptr que realizam um log perante a destruição do objeto.
+
+7) Implemente sua propria my::make_unique de maneira equivalente a std::make_unique.
+
+8) Explique o erro de compilação do codigo B e corrija-o de duas maneiras diferentes.
+
+9) Implemente um pequeno rastreador de memoria sobrescrevendo operator new e delete globalmente.
+
+10) Implemente um pool de memoria para 1000 objetos de um tipo T, partindo de MemoryPool.
+
+11) Mostre como o "problema" de visibilidade de nomes de C++ se reproduz no caso de sobrescrita dos
+operator new e delete.
+
+
+
+
+==================================================================
+*) Referências
+
