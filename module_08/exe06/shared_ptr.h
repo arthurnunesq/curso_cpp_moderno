@@ -11,21 +11,22 @@ public:
 
 shared_ptr(T* ptr)
 : ptr_(ptr), counter_(new int(0)){
-    std::cout << "shared_ptr<T>: created" << std::endl;
+    std::cout << "shared_ptr<T>: constructor" << std::endl;
     increase();
 }
 
 ~shared_ptr() {
+    std::cout << "shared_ptr<T>: destructor" << std::endl;
     decrease();
-    std::cout << "shared_ptr<T>: deleted, counter = " << (counter_ ? (*counter_) : -1) << std::endl;
 }
 
 shared_ptr(const shared_ptr<T>& ptr) : ptr_(ptr.ptr_), counter_(ptr.counter_){
-    std::cout << "shared_ptr<T>: copyied" << std::endl;
+    std::cout << "shared_ptr<T>: copy constructor" << std::endl;
     increase();
 }
 
 shared_ptr<T>& operator=(const shared_ptr<T>& ptr){
+    std::cout << "shared_ptr<T>: assignment" << std::endl;
     if(this!=&ptr)
     {
         ptr_ = ptr.ptr_;
@@ -38,7 +39,7 @@ shared_ptr(shared_ptr<T>&& ptr) : ptr_(ptr.ptr_), counter_(ptr.counter_)
 {
     ptr.ptr_ = nullptr;
     ptr.counter_ = nullptr;
-    std::cout << "shared_ptr<T>: Construtor de transferencia" << std::endl;
+    std::cout << "shared_ptr<T>: transfer constructor" << std::endl;
 }
 
 shared_ptr<T>& operator=(shared_ptr<T>&& ptr){
@@ -46,36 +47,37 @@ shared_ptr<T>& operator=(shared_ptr<T>&& ptr){
     counter_ = ptr.counter_;
     ptr.ptr_ = nullptr;
     ptr.counter_ = nullptr;
-    std::cout << "shared_ptr<T>: Atribuicao por transferencia" << std::endl;
+    std::cout << "shared_ptr<T>: transfer assignment" << std::endl;
     return *this;
 }
 
 void increase(){
     if(counter_) {
         (*counter_)++;
+        std::cout << "shared_ptr<T>: counter incremented = " << *counter_ << std::endl;
     }
 }
 
 void decrease(){
-    if(counter_ && !(--(*counter_))){
+    if(!counter_){
+        return;
+    }
+
+    --(*counter_);
+    std::cout << "shared_ptr<T>: counter decremented = " << *counter_ << std::endl;
+
+    if(!*counter_){
         delete ptr_;
         delete counter_;
         ptr_ = nullptr;
         counter_ = nullptr;
-        std::cout << "shared_ptr<T>: Deleted pointer" << std::endl;
+        std::cout << "shared_ptr<T>: internal pointer deleted" << std::endl;
     }
 }
 
 T* get(){
     return ptr_;
 }
-
-T* release(){
-    T* t = ptr_;
-    ptr_ = nullptr;
-    counter_ = nullptr;
-    return t;
-} 
 
 private:
     T* ptr_ = nullptr;

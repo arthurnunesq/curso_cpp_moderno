@@ -10,12 +10,15 @@ public:
 
 unique_ptr(T* ptr)
 : ptr_(ptr){
-    std::cout << "unique_ptr<T>: created" << std::endl;
+    std::cout << "unique_ptr<T>: construtor" << std::endl;
 }
 
 ~unique_ptr() {
+	if(ptr_){
+        std::cout << "unique_ptr<T>: internal pointer deleted" << std::endl;		
+	}
     delete ptr_;
-    std::cout << "unique_ptr<T>: destroyed" << std::endl;
+    std::cout << "unique_ptr<T>: destructor" << std::endl;
 }
 
 unique_ptr<T>(const unique_ptr<T>& ptr) = delete;
@@ -24,13 +27,13 @@ void operator=(const unique_ptr<T>& ptr) = delete;
 unique_ptr(unique_ptr<T>&& ptr) : ptr_(ptr.ptr_)
 {
     ptr.ptr_ = nullptr;
-    std::cout << "unique_ptr<T>: Construtor de transferencia" << std::endl;
+    std::cout << "unique_ptr<T>: transfer constructor" << std::endl;
 }
 
 unique_ptr<T>& operator=(unique_ptr<T>&& ptr){
     ptr_ = ptr.ptr_;
     ptr.ptr_ = nullptr;
-    std::cout << "unique_ptr<T>: Atribuicao por transferencia" << std::endl;
+    std::cout << "unique_ptr<T>: transfer assignment" << std::endl;
     return *this;
 }
 
