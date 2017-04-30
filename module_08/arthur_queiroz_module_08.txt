@@ -53,6 +53,14 @@ erros por conta de deleções adicionais.
 
 11) Mostre como o "problema" de visibilidade de nomes de C++ se reproduz no caso de sobrescrita dos
 operator new e delete.
+A resolução dos operadores new/delete é realizada em tempo de linkagem. Apesar de das regras de linkagem
+de bibliotecas tipo *.so especificarem que o símbolo utilizado é aquele da biblioteca carregada primeiro,
+o padrão determina que operadores new/delete definidos pelo usuário substituem as implementações default. 
+O compilador implementa este comportamento marcando as funções padrões como referências "fracas", que são
+sobrescritas pelo linker se outro simbolo com o mesmo nome for encontrado.
+Fonte:	http://stackoverflow.com/questions/37041819/without-root-access-run-r-with-tuned-blas-when-it-is-linked-with-reference-blas/37064043#37064043
+		http://stackoverflow.com/a/8186116/702828
+		http://stackoverflow.com/questions/37145235/c-custom-global-new-delete-overriding-system-libraries
 
 
 
