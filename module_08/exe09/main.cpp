@@ -7,8 +7,8 @@
 // http://www.dreamincode.net/forums/topic/73544-how-to-determine-the-size-of-what-a-void-pointer-is-pointing-at/
 // http://stackoverflow.com/questions/8186018/how-to-properly-replace-global-new-delete-operators
 
-int memory_usage = 0;
-std::map<void*, size_t> allocated_objects;
+// int memory_usage = 0;
+// std::map<void*, size_t> allocated_objects;
 
 void* operator new (size_t n) {
 	void* p = malloc(n);

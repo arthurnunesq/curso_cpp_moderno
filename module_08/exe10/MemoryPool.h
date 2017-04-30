@@ -54,8 +54,5 @@ public:
 	}
 };
 
-
-
-
 #endif // MEMORY_POOL_H
 
