@@ -1,7 +1,7 @@
 /**
     Curso de C++ Moderno
 
-    Lista de exercícios Módulo 03: Objetos: armazenamento, inicialia
+    Lista de exercícios Módulo 04: Preliminares de C++11 e C++14
 
     @author Arthur Nunes de Paiva Santos Queiroz
     @version 03/2017
